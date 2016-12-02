@@ -1,7 +1,7 @@
 #include <iostream>
 #include "mini_test.h"
 
-#include "ColadeprioridadHfinal1.h"
+#include "ColadeprioridadH.h"
 #include "Conj.h"
 
 using namespace aed2;
@@ -327,11 +327,9 @@ ASSERT(hola.tope() == 1);
 }
 
 
-
-
 int main() {
 	RUN_TEST(encolarvuela);
-	/*RUN_TEST(compila);
+	RUN_TEST(compila);
 	RUN_TEST(encolar_uno_y_dejar_vacia);
 	RUN_TEST(encolar_dos_y_dejar_vacia);
 	RUN_TEST(encolar_tres_y_dejar_vacia);
@@ -341,6 +339,6 @@ int main() {
 	RUN_TEST(borro_vacio);
 	RUN_TEST(borro_del_final);
 	RUN_TEST(encolo_dos);
-	RUN_TEST(borro_del_medio);*/
+	RUN_TEST(borro_del_medio);
 	return 0;
 }
