@@ -1,7 +1,7 @@
 #include <iostream>
 #include "mini_test.h"
 
-#include "ColadeprioridadH.h"
+#include "ColadeprioridadH54.h"
 #include "Conj.h"
 
 using namespace aed2;

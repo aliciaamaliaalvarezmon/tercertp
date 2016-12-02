@@ -23,9 +23,7 @@ namespace aed2
 		Juego(Mapa m);
 		Juego(const Conj<Coordenada> cs);
 		
-		//Juego(const Juego& otra); 
-        //~Juego();
-	 //bool EstaParaCaptura(Coordenada c);
+		
 	  Nat AgregarJugador();
 	  Coordenada BuscarHeapDriver(Coordenada c) const;
 
@@ -47,8 +45,6 @@ namespace aed2
 
        Conj<Nat> losjugadores()const;
 
-       //Conj<Nat> JugadoresConj(typename Juego::const_Iterador& it) const;
-
        bool estaConectado(Nat e) const;
 
        Nat sanciones(Nat e) const;
@@ -58,9 +54,7 @@ namespace aed2
       DiccString< Nat >::const_Iterador  Pokemons(Nat e) const;
 
       Conj<Nat> Expulsados() const;
-      //void Expulsados(Conj<Nat>& nuevo) const;
 
-      //Conj<Coordenada>::Iterador posConPokemons(Conj<Coordenada>& dummy); 
       //La aridad no es la misma del tp
       Conj<Coordenada> posConPokemons() const; 
 
@@ -87,9 +81,9 @@ namespace aed2
        Iterador CrearIt(); 
        const_Iterador CrearIt() const; 
 
-        Nat matrizJUGADORESLongitud();//(pokcapturados, ID)
+        Nat matrizJUGADORESLongitud();
 		Nat matrizPOKEMONLongtitud();
-		Nat matrizJUGADORESLatitud();//(pokcapturados, ID)
+		Nat matrizJUGADORESLatitud();
 		Nat matrizPOKEMONLatitud();
 	bool HayUnJugadorCercano(Coordenada c);
  
@@ -169,7 +163,7 @@ namespace aed2
 		
 		
 
-	//	bool HayUnJugadorCercano(Coordenada c);
+	
 
 		bool estaParaCaptura(Coordenada posDelJug);
 
@@ -177,10 +171,10 @@ namespace aed2
 
 		void AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador& it);
 
-		//Conj<Coordenada> Claves(Dicc<Coordenada, string> dicc); //Deberia estar en diccLineal.
+		
 		void Claves(Dicc<Coordenada, string> dicc, Conj<Coordenada>& vacio) const;
 		void Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc, Conj<Nat>& vacio) const;
-		//Conj<Nat> Claves(Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador > dicc); //Deberia estar en diccLineal.
+	
 
 		
 
@@ -202,9 +196,7 @@ namespace aed2
 
      	void Avanzar();
 
-      	//Iterador borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
 
-       	//void Agregar(const T& elem);
    
 
 
@@ -241,7 +233,7 @@ namespace aed2
 
      	const_Iterador& operator = (const typename Juego::const_Iterador& otro);
 
-      	bool HaySiguiente() const;// const;
+      	bool HaySiguiente() const;
      
       	Nat Siguiente();
 
@@ -249,10 +241,6 @@ namespace aed2
 
      	Conj<Nat> Siguientes() const ;
 
-      	//Iterador borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
-
-       	//void Agregar(const T& elem);
-   
 
 
   	private:
