@@ -11,6 +11,7 @@ Mapa::Mapa(const Conj<Coordenada> cs) : matriz() , longitudmaxima(0), latitudmax
 
 }
 
+// MARCH: Faltó borrar
 Mapa::~Mapa() {
     /*
     	Nat i = 0;
@@ -126,6 +127,7 @@ void Mapa::agregarCoord(Coordenada c) {
     Nat longitudanterior = longitudmaxima;
     Nat latitudanterior = latitudmaxima;
     Vector< Arreglo <Arreglo<bool> > >* fila = new Vector< Arreglo<Arreglo<bool> > >;
+    // MARCH: ¿No hay que crear uno nuevo cada vez? AgregarAtras no copia
     Arreglo<Arreglo<bool> >* elem = new Arreglo<Arreglo<bool> >(latdecoor);
     for (int k = 0; k < latdecoor; k++) {
         (*elem).Definir(k, Arreglo<bool>(londecoor));

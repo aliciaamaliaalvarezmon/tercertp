@@ -4,7 +4,7 @@
 * Lista doblemente enlazada.
 *
 */
-//BANANA SIGNIFICA QUE NO SE SI ALGO ESTA BIEN
+//BANANA SIGNIFICA QUE NO SE SI ALGO ESTA BIEN // MARCH: ??
 #ifndef AED2_COLADEPRIORIDAD_H_
 #define AED2_COLADEPRIORIDAD_H_
 
@@ -32,8 +32,8 @@ public:
     bool EsVacia() const;
     Coladeprioridad<T>::Iterador Encolar(const T& elem);
     void Desencolar();
-    T& tope() const;
-    Coladeprioridad<T>::Iterador CrearIt();
+    T& tope() const; // MARCH: resultado const
+    Coladeprioridad<T>::Iterador CrearIt(); // MARCH: ¿Se usa?
 
 
 
@@ -54,9 +54,12 @@ public:
 
         Iterador(const typename Coladeprioridad<T>::Iterador& otro);
        
-        bool HaySiguiente();// const;
+        bool HaySiguiente();// const; // MARCH: Debería ser const
 
-        T& Siguiente();
+        // MARCH: Debería ser const tanto la función como el resultado.
+        // No deberían modificar el valor interno del heap (explotan las
+        // prioridades).
+        T& Siguiente(); 
 
         void borrarSiguiente();//toma un iterador, lo inicializa con la cola que lo llamo, y agrega.
 
@@ -320,7 +323,7 @@ typename Coladeprioridad<T>::Nodo** Coladeprioridad<T>::recorrocamino(typename C
     while(potencia > 0) {
         resta = resta << 1;
         potencia--;
-    }
+    } // MARCH: ¿Qué representa 'resta' acá? 
     if (cant == 0) {
         return (&h);
     }
@@ -355,7 +358,7 @@ template<class T>
 Nat Coladeprioridad<T>::NodosDeNivelCompleto(Nat n) {
     Nat potencia = n+1;
     Nat res = 1;
-    while(potencia  > 0) { //return (2^(n+1))-1;
+    while(potencia  > 0) { //return (2^(n+1))-1; // MARCH: hermoso comentario
         res = res << 1;
         potencia = potencia -  1;
     }
@@ -376,6 +379,7 @@ Nat Coladeprioridad<T>::mitadnodosdenivel(Nat n) {
         }
     }
     return res;
+    // MARCH: res == l / 2 con l cantidad de hojas, l = 2^h
     //return 2^(n-1);
 }
 
@@ -513,6 +517,7 @@ void Coladeprioridad<T>::Iterador::borrarSiguiente() {
         cambionivel = cambionivel << 1;
         potencia--;
     }
+    // MARCH: No debería poder borrar si cantClaves_ == 0, ¿no? 
     if(cola_-> cantClaves_ > 0 ) {
         cola_-> cantClaves_--;
     }
@@ -559,6 +564,8 @@ void Coladeprioridad<T>::Iterador::borrarSiguiente() {
             }
             while(((ultimo->hijoDer != NULL) and (ultimo->dato > ultimo->hijoDer->dato)) or ((ultimo->hijoIzq != NULL) and (ultimo->dato > ultimo->hijoIzq->dato))) {
                 if(ultimo->hijoDer != NULL) {
+                    // MARCH: No entiendo estos casos. ¿Que pasa con minimodato
+                    // si alguno de los dos hijos es null?
                     if(ultimo->dato > (*cola_).minimodato(ultimo->hijoIzq, ultimo->hijoDer)) {
                         typename Coladeprioridad<T>::Nodo* minnodo = (*cola_).minimonodo(ultimo->hijoIzq, ultimo->hijoDer);
                         (*minnodo).swap(ultimo);

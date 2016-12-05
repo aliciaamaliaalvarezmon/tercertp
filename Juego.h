@@ -41,7 +41,7 @@ namespace aed2
 
        Mapa VerMapa() const;
 
-       Juego::const_Iterador Jugadores();
+       Juego::const_Iterador Jugadores() const;
 
        Conj<Nat> losjugadores()const;
 
@@ -247,18 +247,18 @@ namespace aed2
 
     
     	//typename Juego::dataJugador
-      	Vector<dataJugador>* elementos_;
+      	const Vector<dataJugador>* elementos_;
       	Nat posicion_;
 
 
       	const_Iterador(){
-        elementos_= NULL;
-        posicion_ = 0;        
-      }
+            elementos_= NULL;
+            posicion_ = 0;        
+        }
 
-      	const_Iterador(Vector<dataJugador>* jug){
-      	elementos_ = jug;
-      	posicion_ =  0;		
+      	const_Iterador(const Vector<dataJugador>* jug){
+            elementos_ = jug;
+            posicion_ =  0;		
       	}
       
 

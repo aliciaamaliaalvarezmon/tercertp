@@ -53,6 +53,7 @@ public:
     // Devuelve true si los dos caminos estan conectados.
     bool hayCamino(Coordenada c, Coordenada c2) const;
 
+    // MARCH: Private!
     // Devuelve true si existe un camino que conecte a las coordenadas.
     bool hayCaminoQ(Coordenada& c, Nat i, Nat j, Conj<Coordenada>& cs) const;
 

@@ -62,13 +62,14 @@ bool Driver::posExistente(const Coordenada & c) const {
     return (game.VerMapa()).posEnMapa(c);
 }
 Conj< Jugador > Driver::jugadores() const {
-//	Juego::const_Iterador it(game.CrearIt());
-    /*Conj< Jugador > res;
+	Juego::const_Iterador it = game.Jugadores();
+    Conj< Jugador > res;
     while(it.HaySiguiente()){
     	res.AgregarRapido((it.Siguiente()));
     	it.Avanzar();
-    }*/
-    return game.losjugadores();//it.Siguientes();//game.losjugadores();//game.JugadoresConj(it);
+    }
+    return res;
+   //return game.losjugadores();//it.Siguientes();//game.losjugadores();//game.JugadoresConj(it);
 }
 bool Driver::estaConectado(const Jugador & j) const {
     return (game.estaConectado(j));

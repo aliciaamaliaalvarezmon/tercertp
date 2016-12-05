@@ -52,7 +52,10 @@ void Juego::AgregarPokemon(string p, Coordenada c) {
     matrizPokemon_[c.longitud()][c.latitud()].HayBasura_ = false;
     Conj<typename Juego::capturadosyID>::Iterador it = entrenadores.CrearIt();
     while(it.HaySiguiente()) {
+        // MARCH: Podría ser referencia
+        // MARCH: Se puede extraer la posición del jugador antes
         Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>* hola = (&(matrizJugadores_[vectJug_[it.Siguiente().ID].posicion.longitud()][vectJug_[it.Siguiente().ID].posicion.latitud()]));
+        // MARCH: ¿Y si el jugador no está en ninguna posición?
         vectJug_[it.Siguiente().ID].posenColaDeCaptura.EliminarSiguiente();		//sino define doble
         vectJug_[it.Siguiente().ID].posenColaDeCaptura = (*hola).DefinirRapido(it.Siguiente().ID, (*rompe).Encolar(it.Siguiente())); //DefinirRapido
         it.Avanzar();        
@@ -92,10 +95,13 @@ void Juego::desconectarse(Nat e) {
 
 void Juego::moverse(Nat e, Coordenada c) {
     Coordenada antiguaPos =  vectJug_[e].posicion;   
+    // MARCH: Segun spec, esto pasa aunque se lo sancione. Igual en los tests
+    // de la cátedra se confundió mucho esto.
     if (not( antiguaPos.distEuclidea(c) > 100 or not mundo_.hayCamino(antiguaPos,c))) {
         vectJug_[e].posicion = c ;
         if(estaParaCaptura(antiguaPos)) {
             Coordenada AntiguoHeap = BuscarHeap(antiguaPos);
+            // MARCH: No se usa
             Dicc<Nat, Coladeprioridad<typename Juego::capturadosyID>::Iterador>::Iterador bip = (matrizJugadores_[AntiguoHeap.longitud()][AntiguoHeap.latitud()].CrearIt() );
             (vectJug_[e].posenColaDeCaptura.SiguienteSignificado()).borrarSiguiente();
             vectJug_[e].posenColaDeCaptura.EliminarSiguiente();
@@ -113,6 +119,7 @@ void Juego::moverse(Nat e, Coordenada c) {
                 Coordenada PosDePokemon = BuscarHeap(c);
                 (matrizPokemon_[PosDePokemon.longitud()][PosDePokemon.latitud()]).contador_  = 0;
                 Coordenada PosAnteriorDePokemon = BuscarHeap(antiguaPos);
+                // MARCH: Esto no va con la spec
                 if((matrizPokemon_[PosAnteriorDePokemon.longitud()][PosAnteriorDePokemon.latitud()]).heap_.EsVacia()) {
                     (matrizPokemon_[PosAnteriorDePokemon.longitud()][PosAnteriorDePokemon.latitud()]).contador_  = 0;
                 }
@@ -131,8 +138,10 @@ void Juego::moverse(Nat e, Coordenada c) {
         /*Coordenada PosDePokemon = BuscarHeap(c);*/
         Dicc<Coordenada,String>::Iterador it = posdePokemon_.CrearIt();
         while(it.HaySiguiente()) {
+            // MARCH: Se puede re compactar el if
             if(HayPokemonCercano(c) && not(BuscarHeap(c) == it.SiguienteClave())) {               
                 infoHeap &posActual = matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()];
+                // MARCH: Si no hay jugador cercano también se suma
                 if(HayUnJugadorCercano(it.SiguienteClave())) {                    
                     (posActual).contador_ += 1;
                 }
@@ -151,6 +160,7 @@ void Juego::moverse(Nat e, Coordenada c) {
                 //Coordenada &posPokemon  = it.SiguienteClave();
                 infoHeap &posActual = matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()];
                 if (not HayPokemonCercano(c)) {
+                    // MARCH: Si no hay jugador cercano también se suma
                     if(HayUnJugadorCercano(it.SiguienteClave())) {
                         posActual.contador_ += 1;
                     }
@@ -202,7 +212,7 @@ Mapa Juego::VerMapa() const {
 }
 
 
-typename Juego::const_Iterador Juego::Jugadores() {
+typename Juego::const_Iterador Juego::Jugadores() const {
     typename Juego::const_Iterador nuevo = CrearIt();
     return nuevo;
 }
@@ -247,6 +257,11 @@ Conj<Nat> Juego::Expulsados() const {
 
 
 //La aridad no es la misma del tp
+// MARCH: No cumple complejidad enunciado. De esto es importante que hayan
+// entendido las posibilidades que hay para manejar esto:
+//   * Tener el conjunto calculado interno
+//   * Crear un conjunto nuevo y mantenerlo para que la referencia valga afuera
+//   * Devolver un iterador especial (como el de jugador)
 Conj<Coordenada> Juego::posConPokemons() const {
     Conj<Coordenada> dummy;
     Claves(posdePokemon_, dummy);
@@ -414,8 +429,8 @@ typename Juego::Iterador Juego::CrearIt() {
 
 
 typename Juego::const_Iterador Juego::CrearIt() const {
-    Vector<dataJugador> jug = (this->vectJug_);
-    typename Juego::const_Iterador nuevo(&jug);
+    const Vector<dataJugador>* jug = &(this->vectJug_);
+    typename Juego::const_Iterador nuevo(jug);
     return nuevo;
 }
 
@@ -717,6 +732,7 @@ Coordenada Juego::BuscarHeapDriver(Coordenada c) const {
 
 
 void Juego::AuxCapturarPokemon(Dicc<Coordenada, string>::Iterador& it) { 
+    // MARCH: Referencia para que no copie
     infoHeap dameLaData = matrizPokemon_[it.SiguienteClave().longitud()][it.SiguienteClave().latitud()];
     dataJugador& jugador = vectJug_[(((dameLaData).heap_).tope()).ID];
     if(not ((jugador.pokemonescapturados).Siguiente()).Definido(it.SiguienteSignificado())) {

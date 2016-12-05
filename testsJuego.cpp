@@ -1439,7 +1439,19 @@ void Jugadores_Son(){
 
 
 
+void test_iterador_jugadores() {
+    Conj<Coordenada> cs;
+    Driver juego(cs);
 
+    juego.agregarJugador();
+    juego.agregarJugador();
+    juego.agregarJugador();
+    juego.agregarJugador();
+
+    Conj<Jugador> jugadores = juego.jugadores();
+    cout << jugadores << endl;
+    
+}
 
 
 
@@ -1482,6 +1494,7 @@ int main() {
 	RUN_TEST(cuatro_capturas);
 	RUN_TEST(lonely_soldier_boy);
 	RUN_TEST(posPokemonCercano);
+    RUN_TEST(test_iterador_jugadores)
 	return 0;
 }
 
