@@ -142,6 +142,7 @@ public:
             if(claves.HaySiguiente()) {
                 siguiente = make_pair(claves.Siguiente(), (*d).Obtener(claves.Siguiente()));//rompe crear el iterador sino hay siguiente de claves.
             }//it.EliminarSiguiente();
+            // MARCH: O(largo clave + copy(significado))
         }
         friend typename DiccString<T>::const_Iterador DiccString<T>::CrearIt() const;
 
@@ -483,6 +484,7 @@ int DiccString<T>::letras(Nodo* puntero) {
 
 
 
+// MARCH: Spaaaacceeee (https://www.youtube.com/watch?v=R7HVO8OQBwg)
 
 
 
@@ -490,7 +492,7 @@ int DiccString<T>::letras(Nodo* puntero) {
 
 
 
-
+// MARCH: iterDador
 //////////ITERDADOR
 /////////////////////////////////////////////////
 template<typename T>
@@ -530,7 +532,11 @@ void DiccString<T>::Iterador::BorrarSiguiente() {
     if(claves.HaySiguiente()) {
         siguiente = make_pair(claves.Siguiente(), (*dic).Obtener(claves.Siguiente()));
     }
+    // MARCH: O(|clave| + copy(clave) + copy(significado))
 }
+// MARCH: Comportamiento desprolijo en que el iterador se reinicia siempre
+// MARCH: Necesitarían un borrar de diccionario que no siempre borre el
+// iterador.
 //VA A ROMPER
 
 
@@ -542,11 +548,12 @@ void DiccString<T>::Iterador::BorrarSiguiente() {
 template<typename T>
 void DiccString<T>::Iterador::Avanzar() {
     claves.Avanzar();
-    if(claves.HaySiguiente()) {
+    if(claves.HaySiguiente()) { // MARCH: por PRE no debería ser necesario el if
         string id = claves.Siguiente();
         T significado(dic->Obtener(id));
         siguiente = make_pair(claves.Siguiente(),significado);
     }
+    // MARCH: O(copy(clave) + copy(significado))
 }
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
@@ -558,6 +565,7 @@ pair<string, T>  DiccString<T>::Iterador::Siguiente() {
 
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
+// MARCH: No se usa
 template<typename T>
 Conj<pair<string, T> > DiccString<T>::Iterador::Siguientes() {
     Conj<pair<string, T> > nuevo;
@@ -631,6 +639,7 @@ void DiccString<T>::const_Iterador::Avanzar() {
         T significado(dic->Obtener(id));
         siguiente = make_pair(claves.Siguiente(),significado);
     }
+    // MARCH: O(|clave| + copy(clave) + copy(significado))
 }
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
@@ -672,7 +681,7 @@ typename DiccString<T>::const_Iterador  DiccString<T>::CrearIt() const {
 
 
 
-
+// MARCH: Wiiii
 
 
 
